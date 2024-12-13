@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Bot Integration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Your Accessible Document Assistant</h1>
+        <nav>
+            <button data-tab="home">Home</button>
+            <button data-tab="upload">Upload/Scan</button>
+            <button data-tab="chat">Chatbot</button>
+            <button data-tab="redactor">Redactor</button> <!-- Added Redactor Tab -->
+        </nav>
+        <button id="toggle-voice-bot">Enable Voice Bot</button>
+        <main id="main-content">
+            <section id="home" class="tab-content">Welcome to the Document Assistant! Use the tabs to navigate.</section>
+            <section id="upload" class="tab-content hidden">
+                <iframe src="/camera" width="100%" height="400"></iframe>
+                <p>Use the camera to scan documents.</p>
+            </section>
+            <section id="chat" class="tab-content hidden">
+                <form id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Type your message">
+                    <button type="submit">Send</button>
+                </form>
+                <div id="chat-history"></div>
+            </section>
+            <section id="redactor" class="tab-content hidden"> <!-- Added Redactor Section -->
+                <h2>Redact Personal Information</h2>
+                <form action="/redactor" method="POST" enctype="multipart/form-data">
+                    <label for="file">Upload File to Redact:</label>
+                    <input type="file" name="file" id="file" required>
+                    <button type="submit">Upload and Redact</button>
+                </form>
+                <div id="message"></div>
+            </section>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
