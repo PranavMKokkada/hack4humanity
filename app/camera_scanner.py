@@ -7,7 +7,10 @@ from flask import Blueprint, Response
 # Define the Blueprint for the camera scanner
 camera_app = Blueprint("camera", __name__)
 
-CAPTURE_FOLDER = "captured_images"
+# Use os.path.join for cross-platform compatibility
+CAPTURE_FOLDER = os.path.join(os.getcwd(), "captured_images")
+
+# Ensure the capture folder exists
 if not os.path.exists(CAPTURE_FOLDER):
     os.makedirs(CAPTURE_FOLDER)
 
@@ -52,7 +55,7 @@ def process_frame(frame, last_capture_time, capture_delay=1):
         
         current_time = time.time()
         if guide_message == "Paper aligned. Capturing..." and current_time - last_capture_time > capture_delay:
-            filename = f"{CAPTURE_FOLDER}/captured_image_{int(current_time)}.jpg"
+            filename = os.path.join(CAPTURE_FOLDER, f"captured_image_{int(current_time)}.jpg")
             cv2.imwrite(filename, frame)
             last_capture_time = current_time
     else:

@@ -31,10 +31,15 @@ def redactor():
             redacted_content = redact_personal_info(file_content)
 
             # Save redacted file
-            output_file_path = os.path.join('captured_images', 'redacted_file.txt')
+            # Use os.path.join() for cross-platform compatibility
+            output_file_path = os.path.join(os.getcwd(), 'captured_images', 'redacted_file.txt')
+            
+            # Ensure the directory exists
+            os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+
             with open(output_file_path, 'w') as output_file:
                 output_file.write(redacted_content)
-            
+
             return jsonify({"message": "File redacted successfully!", "redacted_file": output_file_path})
         else:
             return jsonify({"message": "No file uploaded!"}), 400
